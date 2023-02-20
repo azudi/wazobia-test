@@ -24,6 +24,11 @@ body {
   overflow-x: hidden !important;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  @apply bg-gray-100;
+  width: 100% ;
+}
+video{
+  width: 100% !important;
 }
 body::-webkit-scrollbar {
   display: none;
@@ -48,104 +53,40 @@ body::-webkit-scrollbar {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-.input-container {
-  @apply w-full flex items-center border-2 border-gray-200 mt-6 rounded-lg red-hat;
-  .input {
-    @apply py-3 outline-none border-none pl-3 bg-transparent;
-  }
-  .input-icon {
-    @apply inline-flex w-16 justify-center;
-  }
+.hidden{
+  display: none
+}
+.label{
+  font-size: 12px;
 }
 
-.san-serif {
-  font-family: "Raleway", sans-serif;
-}
-.red-hat {
-  font-family: "Red Hat Display", sans-serif;
-}
-.dm-san {
-  font-family: "Red Hat Display", sans-serif;
-  font-family: "Raleway", sans-serif;
 
-}
-
-.mySwiper {
-  height:auto;
-}
-.swiper-pagination{
-  display: none;
-}
-.swiper-pagination-vertical{
-  display: block;
-}
-.swiper-button-next::after{
-  width: 12px;
-  height: 20px;
-  display: block;
-  background-color: rgb(143, 133, 133);
-  clip-path: polygon(42% 0, 100% 50%, 40% 100%, 25% 100%, 84% 51%, 27% 0);
-}
-.swiper-button-next{
-  right: -8px !important;
-}
-.swiper-button-prev::after{
-  width: 12px;
-  height: 20px;
-  display: block;
-  background-color: rgb(143, 133, 133);
-  clip-path: polygon(76% 0, 19% 50%, 74% 100%, 57% 100%, 0% 50%, 57% 0);
-}
-.swiper-button-prev{
-  left:-8px !important;
-}
-.headerSwiper .swiper-pagination-vertical .swiper-pagination-bullet  {
- color: white;
- transform: rotateY(180deg) !important;
- background-color: transparent;
- font-size: 12px;
- opacity: 0.5;
- margin: 12px 0 !important; 
- 
-}
-.headerSwiper .swiper-pagination-vertical .swiper-pagination-bullet-active  {
-  width: 10px;
-  height: 4px;
-  border-radius: 50px;
-  position: relative;
-  display: inline-block;
-  background-color: transparent;
-  margin: 10px 0 !important; 
-  opacity: 1;
-  font-weight: 900;
-}
-.headerSwiper .swiper-pagination-vertical .swiper-pagination-bullet-active::before  {
-  content: "";
-  position: absolute;
-  display: inline-block;
-  top: calc(50% - 3px);
-  right: calc(100% + 3px);
-  width: 20px;
-  height: 3px;
-  border-radius: 50px;
+.ql-toolbar{
   background-color: white;
-  margin: 8px 0 !important; 
+  border: none !important;
 }
-.headerSwiper .swiper-pagination-vertical {
-  transform: rotateY(180deg) !important;
+.ql-container{
+  border: none !important;
 }
-.search-input{
-  @apply text-[14px] pl-3 w-full bg-transparent outline-none text-white 
+.pop-over{
+  animation: 0.3s 1 linear popOver;
 }
-.search-input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: white;
-  opacity: 1; /* Firefox */
+@keyframes popOver {
+  from{
+    transform: scale(0);
+  }
+  to{
+    transform: scale(1);
+  }
 }
-
-.search-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: white;
+.h-height{
+  height:  400px !important;
 }
-
-.search-input::-ms-input-placeholder { /* Microsoft Edge */
-  color: white;
+.HX-image{
+  width: 90%;
+}
+.ql-video{
+  width: 100%;
+  height: 300px !important;
+  max-height: 1000px !important;
 }
