@@ -5,7 +5,7 @@ import PictureModal from "components/PictureModal";
 import VideoModal from "components/VideoModal";
 import SocialPlattform from "components/SocialMediaPlatform";
 import SocialWrapper from "components/SocialWrapper";
-import { editorProps } from "components/Constant/EditorProps";
+import { editorProps } from "utils/Constant/EditorProps";
 import OptionsContent from "components/OptionsContent";
 
 export const TextEditor: React.FC = () => {
@@ -163,7 +163,6 @@ export const TextEditor: React.FC = () => {
           className="overflow-y-auto mb-4"
         ></div>
         <div className="bg-white text-[11px] text-right p-1">
-          {" "}
           {currentIndex.textLength} / 1000
         </div>
         <div className="pb-6">
