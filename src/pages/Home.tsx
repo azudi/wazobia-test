@@ -57,7 +57,7 @@ export const TextEditor: React.FC = () => {
     medium: String;
     code: string;
   }) => {
-    !val.code
+    val.link
       ? quills.insertEmbed(currentIndex.index, "video", val?.link)
       : appendTextAsNodeToEditor(val.code);
   };
@@ -132,6 +132,7 @@ export const TextEditor: React.FC = () => {
     CustomVideoModule.tagName = "div";
     Quill.register(CustomVideoModule, true);
   }
+  
 
 
 
