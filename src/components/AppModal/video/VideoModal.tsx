@@ -1,38 +1,37 @@
+import Button from "components/widget/Button";
 import React, { ReactNode, useRef, useState } from "react";
-import Modal from "./Modal";
+import Modal from "../Modal";
 
 interface Props {
   closeModal: Function;
   showModal: Boolean;
-  appendSocialToEditor: Function;
+  appendVideoToEditor: Function;
 }
 
-const SocialPlattform: React.FC<Props> = ({
+const VideoModal: React.FC<Props> = ({
   closeModal,
   showModal,
-  appendSocialToEditor,
+  appendVideoToEditor,
 }) => {
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const [socialLink, setSocialLink] = useState({
+  const [image64, setImage64] = useState("");
+  const [videoLink, setVideoLink] = useState({
     link: "",
-    medium: "",
-    code: ""
+    medium: ""
   });
 
 
   const addendVideo = ()=>{
-    appendSocialToEditor(socialLink)
+    if(!videoLink?.link) return;
+    appendVideoToEditor(videoLink)
     closeModal()
   }
 
    const inputSetLink = (val: React.ChangeEvent<HTMLInputElement>)=>{
-    setSocialLink({...socialLink, link: val?.target.value})
+     setVideoLink({...videoLink, link: val?.target.value})
    }
   const inputSetType = (val: React.ChangeEvent<HTMLSelectElement>)=>{
-    setSocialLink({...socialLink, medium: val?.target.value})
-  }
-  const inputSetCode = (val: React.ChangeEvent<HTMLInputElement>)=>{
-    setSocialLink({...socialLink, code: val?.target.value})
+    setVideoLink({...videoLink, medium: val?.target.value})
   }
 
 
@@ -44,14 +43,12 @@ const SocialPlattform: React.FC<Props> = ({
         <p className="py-2"></p>
 
         <div className="mb-3">
-            <label className="label">SOCIAL MEDIA PLATTFORM</label>
+            <label className="label">VIDEO PR0VIDER</label>
             <select onChange={inputSetType} className="w-full bg-gray-50 px-3 py-2 text-[12px] rounded outline-none">
-                <option value="Youtube">Facebook</option>
-                <option value="Youtube">Twitter</option>
-                <option value="Youtube">Instagram</option>
+                <option value="Youtube">Youtube</option>
+                <option value="Youtube">Vimeo</option>
             </select>
         </div>
-
 
         <div className="">
             <label className="label">URL</label>
@@ -60,20 +57,8 @@ const SocialPlattform: React.FC<Props> = ({
             type="text" placeholder="https://www.youtube.com/embed/QH2-TGUlwu4" className="w-full bg-gray-50 px-3 py-2 text-[12px] rounded"/>
         </div>
 
-        <div className="">
-            <label className="label">CODE</label>
-            <input
-            placeholder={`<iframe src="https://www.youtube.com/embed/QH2-TGUlwu4" width="560" height="315" title="Nyan Cat [original]" frameborder="0" allowfullscreen></iframe>`}
-            onChange={inputSetCode}
-            type="text" className="w-full bg-gray-50 px-3 py-2 text-[12px] rounded"/>
-        </div>
-
         <div className="py-3">
-          <button
-          onClick={addendVideo}
-          className="px-4 py-1 border-2 border-green-800 bg-green-800 text-white rounded mr-4">
-            Emded
-          </button>
+        <Button title="Embed" isActive={true} trigger={addendVideo}/>
           <button onClick={()=>closeModal()} className="px-4 py-1 border-2 border-gray-200 rounded">
             Cancel
           </button>
@@ -83,4 +68,4 @@ const SocialPlattform: React.FC<Props> = ({
   );
 };
 
-export default SocialPlattform;
+export default VideoModal;

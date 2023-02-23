@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import "./assets/styles/main.scss"
-import { TextEditor } from 'pages/Home';
+import RootRouter from 'navigation';
 
 
 function App() {
   return (
-      <TextEditor/>
+     <RootRouter/>
   );
 }
 

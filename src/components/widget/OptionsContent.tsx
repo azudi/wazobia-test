@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { ReactComponent as PhotoIcon } from "../assets/images/svg/photoIcon.svg";
-import { ReactComponent as VideoIcon } from "../assets/images/svg/viseoIcon.svg";
-import { ReactComponent as SocialIcon } from "../assets/images/svg/SocialIcon.svg";
+import { ReactComponent as PhotoIcon } from "../../assets/images/svg/photoIcon.svg";
+import { ReactComponent as VideoIcon } from "../../assets/images/svg/viseoIcon.svg";
+import { ReactComponent as SocialIcon } from "../../assets/images/svg/SocialIcon.svg";
 
 interface Props {
   setPictureModal: Function;

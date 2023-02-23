@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 // @ts-ignore
 import Quill from "quill";
-import PictureModal from "components/PictureModal";
-import VideoModal from "components/VideoModal";
-import SocialPlattform from "components/SocialMediaPlatform";
-import SocialWrapper from "components/SocialWrapper";
-import { editorProps } from "utils/Constant/EditorProps";
-import OptionsContent from "components/OptionsContent";
+import PictureModal from "components/AppModal/picture/PictureModal";
+import VideoModal from "components/AppModal/video/VideoModal";
+import SocialPlattform from "components/AppModal/social/SocialMediaPlatform";
+import SocialWrapper from "components/EditorWrapper/SocialWrapper";
+import OptionsContent from "components/widget/OptionsContent";
+import { ToolOptions } from "constans/editor/toolOptions";
+import { scrollEditorToEnd } from "Functions/ScrollToEnd";
+import { outterClose } from "Functions/OuterClickClose";
+import { CustomIframe } from "Functions/editorComponent/CustomIframe";
 
 export const TextEditor: React.FC = () => {
   const editor = useRef<HTMLDivElement>(null);
@@ -26,12 +29,12 @@ export const TextEditor: React.FC = () => {
   useEffect(() => {
     if(loaded) return
     const quill = new Quill("#editor-container", {
-      modules: { toolbar: editorProps },
+      modules: { toolbar: ToolOptions },
       placeholder: "Input in custom text editor...",
       theme: "snow", // or 'bubble',
     });
 
-    createCustomSocialFrame()
+    CustomIframe(Quill)
 
     editor?.current?.setAttribute("style", "min-height: 300px; height: 380px");
     setQuill(quill);
@@ -44,12 +47,12 @@ export const TextEditor: React.FC = () => {
   //Functions
   const appendImageToEditor = (val: string) => {
     quills.insertEmbed(currentIndex.index, "image", val);
-    scrollEditorToEnd();
+    scrollEditorToEnd(editor);
   };
 
   const appendVideoToEditor = (val: { link: String; medium: String }) => {
     quills.insertEmbed(currentIndex.index, "video", val?.link);
-    scrollEditorToEnd();
+    scrollEditorToEnd(editor);
   };
 
   const appendSocialToEditor = (val: {
@@ -58,31 +61,18 @@ export const TextEditor: React.FC = () => {
     code: string;
   }) => {
     val.link
-      ? quills.insertEmbed(currentIndex.index, "video", val?.link)
+      ? quills.insertEmbed(currentIndex.index, "customUrlIframe", val?.link)
       : appendTextAsNodeToEditor(val.code);
   };
 
-  const scrollEditorToEnd = () => {
-    const editorContainer = editor.current as HTMLElement;
-    if (editorContainer?.children[0]) {
-      editorContainer.children[0].scrollTop =
-        editorContainer.children[0].scrollHeight;
-    }
-  };
 
   const appendTextAsNodeToEditor = (val: string) => {
     quills.insertEmbed(currentIndex.index, "customIframe", val);
-    scrollEditorToEnd();
+    scrollEditorToEnd(editor);
   };
 
   const closeDropDown = () => {
-    document.addEventListener("click", function (event) {
-      // check if the event target is inside the dropdown
-      if (!dropDowm.current?.contains(event.target as Node)) {
-        // if the target is not inside the dropdown, collapse it
-        setDropdown(false);
-      }
-    });
+    outterClose(dropDowm, ()=> { setDropdown(false)})
   };
 
   const editorCursorChange = (quill: any) => {
@@ -114,25 +104,7 @@ export const TextEditor: React.FC = () => {
   };
 
 
-  const createCustomSocialFrame = ()=>{
-    const CustomVideo = Quill.import("blots/embed");
-    class CustomVideoModule extends CustomVideo {
-      static blotName: string;
-      static tagName: string;
-      static create(value: any) {
-        const node = super.create(value);
-        node.innerHTML = value
-        return node;
-      }
-      static value(node: { getAttribute: (arg0: string) => any; }) {
-        return node;
-      }
-    }
-    CustomVideoModule.blotName = "customIframe";
-    CustomVideoModule.tagName = "div";
-    Quill.register(CustomVideoModule, true);
-  }
-  
+
 
 
 

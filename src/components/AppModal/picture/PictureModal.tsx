@@ -1,5 +1,6 @@
+import Button from "components/widget/Button";
 import React, { ReactNode, useRef, useState } from "react";
-import Modal from "./Modal";
+import Modal from "../Modal";
 
 interface Props {
   closeModal: Function;
@@ -65,12 +66,7 @@ const PictureModal: React.FC<Props> = ({
           />
         </div>
         <div className="py-3">
-          <button
-            onClick={addendImage}
-            className="px-4 py-1 border-2 border-green-800 bg-green-800 text-white rounded mr-4"
-          >
-            Embed
-          </button>
+          <Button title="Embed" isActive={true} trigger={addendImage}/>
           <button
             onClick={() => closeModal()}
             className="px-4 py-1 border-2 border-gray-200 rounded"
