@@ -10,15 +10,17 @@ import { ToolOptions } from "constans/editor/toolOptions";
 import { scrollEditorToEnd } from "Functions/ScrollToEnd";
 import { outterClose } from "Functions/OuterClickClose";
 import { CustomIframe } from "Functions/editorComponent/CustomIframe";
+import useEditorsAction from "utils/hooks/editorsAction";
 
 export const TextEditor: React.FC = () => {
   const editor = useRef<HTMLDivElement>(null);
   const dropDowm = useRef<HTMLDivElement>(null);
+  const { editorCursorChangeHook, editorOnTextChangeHook } = useEditorsAction();
 
   const [pictureModal, setPictureModal] = useState(false);
   const [socialModal, setSocialModal] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(false);
   const [currentIndex, setCurrentIndex] = useState({
     index: null,
     textLength: 0,
@@ -27,20 +29,20 @@ export const TextEditor: React.FC = () => {
   const [quills, setQuill] = useState<any>(null);
 
   useEffect(() => {
-    if(loaded) return
+    if (loaded) return;
     const quill = new Quill("#editor-container", {
       modules: { toolbar: ToolOptions },
       placeholder: "Input in custom text editor...",
       theme: "snow", // or 'bubble',
     });
 
-    CustomIframe(Quill)
+    CustomIframe(Quill);
 
     editor?.current?.setAttribute("style", "min-height: 300px; height: 380px");
     setQuill(quill);
-    editorCursorChange(quill);
-    editorOnTextChange(quill);
-    setLoaded(true)
+    editorCursorChange(quill, setCurrentIndex, currentIndex);
+    editorOnTextChange(quill, setCurrentIndex, currentIndex);
+    setLoaded(true);
     closeDropDown();
   }, []);
 
@@ -65,48 +67,34 @@ export const TextEditor: React.FC = () => {
       : appendTextAsNodeToEditor(val.code);
   };
 
-
   const appendTextAsNodeToEditor = (val: string) => {
     quills.insertEmbed(currentIndex.index, "customIframe", val);
     scrollEditorToEnd(editor);
   };
 
   const closeDropDown = () => {
-    outterClose(dropDowm, ()=> { setDropdown(false)})
-  };
-
-  const editorCursorChange = (quill: any) => {
-    quill.on("selection-change", function (range: { index: null }) {
-      if (range) {
-        quill.enable();
-        setCurrentIndex({
-          ...currentIndex,
-          index: range.index,
-          textLength: quill.getLength() - 1,
-        });
-      }
+    outterClose(dropDowm as React.RefObject<HTMLInputElement>, () => {
+      setDropdown(false);
     });
   };
 
-  const editorOnTextChange = (quill: any) => {
-    quill.on("text-change", function () {
-      let selection = quill.getSelection();
-      if (selection) {
-        quill.getText().length >= 1000 ? quill.disable() : quill.enable();
-        let cursorIndex = selection.index;
-        setCurrentIndex({
-          ...currentIndex,
-          index: cursorIndex,
-          textLength: quill.getLength() - 1, // Changed quill.getText().length to quill.getLength()
-        });
-      }
-    });
+  const editorCursorChange = (
+    quill: any,
+    setCurrentIndex: Function,
+    currentIndex: object
+  ) => {
+    editorCursorChangeHook(quill, setCurrentIndex, currentIndex);
   };
 
+  const editorOnTextChange = (
+    quill: any,
+    setCurrentIndex: Function,
+    currentIndex: object
+  ) => {
+    editorOnTextChangeHook(quill, setCurrentIndex, currentIndex);
+  };
 
-
-
-
+  
 
   return (
     <main className="flex justify-center items-center h-[100vh]">
@@ -127,9 +115,7 @@ export const TextEditor: React.FC = () => {
       />
 
       <div className="md:w-[500px] sm:w-10/12 w-11/12 max-h-[85vh] shadow-md rounded">
-        <h1 className="font-bold text-xl mb-2 px-3">
-          This is the title
-        </h1>
+        <h1 className="font-bold text-xl mb-2 px-3">This is the title</h1>
         <div
           ref={editor}
           id="editor-container"

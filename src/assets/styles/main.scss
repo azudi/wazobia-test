@@ -90,3 +90,12 @@ body::-webkit-scrollbar {
   height: 300px !important;
   max-height: 1000px !important;
 }
+.ql-editor>p:has(img) { 
+  resize:horizontal;
+  overflow: auto;
+  padding: 1em;
+  max-width: 100%;
+  min-width: 20%;
+  overflow: auto;
+  width: 300px;
+}
